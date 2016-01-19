@@ -223,7 +223,13 @@ describe('RevvedFinder', function () {
           var file = rf.find('../../images/misc/test.png', ['temp/foo', 'dist/bar']);
           assert.equal(file, '../../images/misc/test.34546.png');
         });
-
+        it('should return the corresponding file prepended with a base URL', function () {
+          var rf = new RevvedFinder(helpers.normalize({
+            'dist/images/misc/test.png': 'dist/images/misc/test.34546.png'
+          }), '/static/');
+          var file = rf.find('images/misc/test.png', ['temp', 'dist']);
+          assert.equal(file, '/static/images/misc/test.34546.png');
+        });
       });
       describe('absolute paths', function () {
         it('should return the corresponding file', function () {
@@ -233,8 +239,14 @@ describe('RevvedFinder', function () {
           var file = rf.find('/images/misc/test.png', ['temp', 'dist']);
           assert.equal(file, '/images/misc/test.34546.png');
         });
+        it('should return the corresponding file prepended with a base URL', function () {
+          var rf = new RevvedFinder(helpers.normalize({
+            'dist/images/misc/test.png': 'dist/images/misc/test.34546.png'
+          }), '/static/');
+          var file = rf.find('/images/misc/test.png', ['temp', 'dist']);
+          assert.equal(file, '/static/images/misc/test.34546.png');
+        });
       });
     });
-
   });
 });
